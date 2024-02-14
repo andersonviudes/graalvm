@@ -1,7 +1,7 @@
 FROM ubuntu:xenial-20210429
 
 RUN apt update && \
-    apt install -y wget curl ; \
+    apt install -y wget curl findutils; \
     apt-get -yq autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
