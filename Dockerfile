@@ -7,12 +7,12 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /usr/local/jvm/ && cd /usr/local/jvm/ && \
-    wget https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-21.1.0/graalvm-ce-java11-linux-amd64-21.1.0.tar.gz && \
-    tar -xzf graalvm-ce-java11-linux-amd64-21.1.0.tar.gz && \
-    rm -f graalvm-ce-java11-linux-amd64-21.1.0.tar.gz
+    wget https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_linux-x64_bin.tar.gz && \
+    tar -xzf graalvm-jdk-21_linux-x64_bin.tar.gz && \
+    rm -f graalvm-jdk-21_linux-x64_bin.tar.gz
 
-ENV PATH=/usr/local/jvm/graalvm-ce-java11-21.1.0/bin
-ENV JAVA_HOME=/usr/local/jvm/graalvm-ce-java11-21.1.0/
+ENV PATH=/usr/local/jvm/graalvm-jdk-21.0.2+13.1/bin
+ENV JAVA_HOME=/usr/local/jvm/graalvm-jdk-21.0.2+13.1/
 
 
 CMD bin/bash
