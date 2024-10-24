@@ -2,8 +2,6 @@ name: Build and Push Docker Image
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v*'  # Captura tags que começam com 'v', por exemplo, v23
 
