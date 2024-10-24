@@ -1,18 +1,24 @@
-FROM ubuntu:xenial-20210429
+FROM debian:bullseye-slim AS builder
 
-RUN apt update && \
-    apt install -y wget curl findutils; \
-    apt-get -yq autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+ENV GRAALVM_VERSION=21.3.0
+ENV GRAALVM_BUILD=17
 
-RUN mkdir /usr/local/jvm/ && cd /usr/local/jvm/ && \
-    wget https://download.oracle.com/graalvm/21/latest/graalvm-jdk-21_linux-x64_bin.tar.gz && \
-    tar -xzf graalvm-jdk-21_linux-x64_bin.tar.gz && \
-    rm -f graalvm-jdk-21_linux-x64_bin.tar.gz
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends wget curl tar && \
+    mkdir -p /usr/local/jvm && \
+    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_VERSION}_linux-amd64.tar.gz && \
+    tar -xzf graalvm.tar.gz -C /usr/local/jvm && \
+    rm graalvm.tar.gz
 
-ENV PATH=/usr/local/jvm/graalvm-jdk-21.0.2+13.1/bin
-ENV JAVA_HOME=/usr/local/jvm/graalvm-jdk-21.0.2+13.1/
+# Stage 2: Final Image
+FROM debian:bullseye-slim
+
+ENV JAVA_HOME=/usr/local/jvm/graalvm-jdk-${GRAALVM_VERSION}
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+COPY --from=builder /usr/local/jvm/graalvm-jdk-${GRAALVM_VERSION} /usr/local/jvm/graalvm-jdk-${GRAALVM_VERSION}
 
 
-CMD bin/bash
+WORKDIR /workspace
+
+CMD ["/bin/bash"]
