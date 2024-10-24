@@ -31,7 +31,7 @@ jobs:
         id: extract_version
         run: |
           # Extrai a versão do GraalVM do Dockerfile
-          VERSION=$(grep ENV GRAALVM_VERSION Dockerfile | awk '{print $3}')
+          VERSION=$(grep 'ENV GRAALVM_VERSION' Dockerfile | awk '{print $3}')
           echo "GRAALVM_VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Build and Push Docker Image
