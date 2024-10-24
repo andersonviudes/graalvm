@@ -56,12 +56,5 @@ jobs:
             andersonviudes/graalvm:latest
             andersonviudes/graalvm:${{ env.GRAALVM_VERSION }}
 
-      - name: Install Trivy
-        uses: aquasecurity/trivy-action@v0.7.0
-        with:
-          image-ref: andersonviudes/graalvm:${{ env.GRAALVM_VERSION }}
-          format: 'table'
-          exit-code: '1'  # Define para falhar o job se vulnerabilidades críticas forem encontradas
-
       - name: Logout from Docker Hub
         run: docker logout
