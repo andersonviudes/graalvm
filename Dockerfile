@@ -1,24 +1,32 @@
+# Stage 1: Builder
 FROM debian:bullseye-slim AS builder
 
-ENV GRAALVM_VERSION=21.3.0
-ENV GRAALVM_BUILD=17
+# Definir variáveis de ambiente para a versão do GraalVM
+ENV GRAALVM_VERSION=23
+ENV GRAALVM_BUILD=23
 
+# Instalar dependências, baixar e extrair o GraalVM
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget curl tar && \
-    mkdir -p /usr/local/jvm && \
-    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_VERSION}_linux-amd64.tar.gz && \
-    tar -xzf graalvm.tar.gz -C /usr/local/jvm && \
-    rm graalvm.tar.gz
+    apt-get install -y --no-install-recommends wget curl tar ca-certificates && \
+    mkdir -p /usr/local/jvm/graalvm && \
+    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_BUILD}_linux-x64_bin.tar.gz && \
+    tar -xzf graalvm.tar.gz -C /usr/local/jvm/graalvm --strip-components=1 && \
+    rm graalvm.tar.gz && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Stage 2: Final Image
 FROM debian:bullseye-slim
 
-ENV JAVA_HOME=/usr/local/jvm/graalvm-jdk-${GRAALVM_VERSION}
+# Definir JAVA_HOME e atualizar PATH
+ENV JAVA_HOME=/usr/local/jvm/graalvm
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-COPY --from=builder /usr/local/jvm/graalvm-jdk-${GRAALVM_VERSION} /usr/local/jvm/graalvm-jdk-${GRAALVM_VERSION}
+# Copiar apenas o GraalVM do estágio de build
+COPY --from=builder /usr/local/jvm/graalvm /usr/local/jvm/graalvm
 
-
+# Definir diretório de trabalho
 WORKDIR /workspace
 
+# Comando padrão
 CMD ["/bin/bash"]
