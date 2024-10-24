@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - 'v*'  # Captura tags que começam com 'v', por exemplo, v23
 
@@ -31,8 +31,15 @@ jobs:
         id: extract_version
         run: |
           # Extrai a versão do GraalVM do Dockerfile
-          VERSION=$(grep 'ENV GRAALVM_VERSION' Dockerfile | awk '{print $3}')
+          VERSION=$(grep '^ENV GRAALVM_VERSION=' Dockerfile | cut -d '=' -f2)
+          if [ -z "$VERSION" ]; then
+            echo "GRAALVM_VERSION not found in Dockerfile."
+            exit 1
+          fi
           echo "GRAALVM_VERSION=${VERSION}" >> $GITHUB_ENV
+
+      - name: Debug GRAALVM_VERSION
+        run: echo "GRAALVM_VERSION=${{ env.GRAALVM_VERSION }}"
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
