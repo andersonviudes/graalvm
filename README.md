@@ -4,24 +4,7 @@
 ![Docker Image Size](https://img.shields.io/docker/image-size/andersonviudes/graalvm/latest)
 ![GitHub Actions](https://github.com/andersonviudes/graalvm-docker/workflows/Build%20and%20Push%20Docker%20Image/badge.svg)
 
-## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Usage](#usage)
-  - [Pulling the Image](#pulling-the-image)
-  - [Running a Container](#running-a-container)
-  - [Specifying the GraalVM Version](#specifying-the-graalvm-version)
-- [Building the Docker Image Locally](#building-the-docker-image-locally)
-- [GitHub Actions Workflow](#github-actions-workflow)
-  - [Workflow Overview](#workflow-overview)
-  - [Setting Up GitHub Secrets](#setting-up-github-secrets)
-  - [Triggering the Workflow](#triggering-the-workflow)
-- [Multi-Platform Support](#multi-platform-support)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Introduction
 
