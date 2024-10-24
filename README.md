@@ -2,7 +2,7 @@
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/andersonviudes/graalvm)
 ![Docker Image Size](https://img.shields.io/docker/image-size/andersonviudes/graalvm/latest)
-![GitHub Actions](https://github.com/andersonviudes/graalvm-docker/workflows/Build%20and%20Push%20Docker%20Image/badge.svg)
+![GitHub Actions](https://github.com/andersonviudes/graalvm/actions/workflows/docker-image.yml/badge.svg)
 
 
 
@@ -34,3 +34,9 @@ To pull the latest GraalVM Docker image from Docker Hub:
 
 ```bash
 docker pull andersonviudes/graalvm:latest
+```
+
+### Useful Links
+
+- [GraalVM Official Documentation](https://www.graalvm.org/docs/)
+- [Docker Official Documentation](https://docs.docker.com/)
