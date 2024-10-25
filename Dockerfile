@@ -4,21 +4,29 @@ FROM debian:bullseye-slim AS builder
 # Definir variáveis de ambiente para a versão do GraalVM
 ENV GRAALVM_VERSION=23
 ENV GRAALVM_BUILD=23
+ENV JAVA_HOME=/usr/local/jvm/graalvm
+ENV PATH=$JAVA_HOME/bin:$PATH
 
-# Instalar dependências, baixar e extrair o GraalVM
+# Instalar dependências necessárias, incluindo build-essential para gcc
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends wget curl tar ca-certificates && \
+    apt-get install -y --no-install-recommends wget curl tar ca-certificates build-essential libz-dev && \
     mkdir -p /usr/local/jvm/graalvm && \
-    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_BUILD}_linux-x64_bin.tar.gz && \
+    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_BUILD}_linux-amd64_bin.tar.gz && \
     tar -xzf graalvm.tar.gz -C /usr/local/jvm/graalvm --strip-components=1 && \
     rm graalvm.tar.gz && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Instalar o componente native-image
+RUN gu install native-image
+
+# Verificar a instalação
+RUN native-image --version
+
 # Stage 2: Final Image
 FROM debian:bullseye-slim
 
-# Definir JAVA_HOME e atualizar PATH
+# Definir variáveis de ambiente para o GraalVM
 ENV JAVA_HOME=/usr/local/jvm/graalvm
 ENV PATH=$JAVA_HOME/bin:$PATH
 
