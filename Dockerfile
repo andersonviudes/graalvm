@@ -11,7 +11,7 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 RUN apt-get update && \
     apt-get install -y --no-install-recommends wget curl tar ca-certificates build-essential libz-dev && \
     mkdir -p /usr/local/jvm/graalvm && \
-    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_BUILD}_linux-amd64_bin.tar.gz && \
+    wget -O graalvm.tar.gz https://download.oracle.com/graalvm/${GRAALVM_VERSION}/latest/graalvm-jdk-${GRAALVM_BUILD}_linux-x64_bin.tar.gz && \
     tar -xzf graalvm.tar.gz -C /usr/local/jvm/graalvm --strip-components=1 && \
     rm graalvm.tar.gz && \
     apt-get clean && \
