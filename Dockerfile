@@ -17,12 +17,6 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Instalar o componente native-image
-RUN gu install native-image
-
-# Verificar a instalação
-RUN native-image --version
-
 # Stage 2: Final Image
 FROM debian:bullseye-slim
 
